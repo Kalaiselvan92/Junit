@@ -18,11 +18,14 @@ jobs:
       - name: Maven build and deploy
         run: |
           mvn test
-          mvn clean deploy    
- 
+          mvn clean deploy
+      - name: push the target folder
+        run: |
+          git add .
+          git commit -m  "uploading created folders"
+          git push origin master
 
   Analyze:
-    name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -48,4 +51,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit -Dsonar.analysis.mode=pubish
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
