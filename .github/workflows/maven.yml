@@ -47,3 +47,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
+  
+  Deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download package
+        env:
+          ART: ${{ curl https://ksdemo.jfrog.io/artifactory/api/storage/maven-demo/com/wss/wss/0.0.1-SNAPSHOT | jq -r ".children[].uri" | tr -d '/' | tail -1 }}
+        run: |
+          cd /home/runner
+          wget -N https://ksdemo.jfrog.io/artifactory/maven-demo/com/javainuse/SpringBootHelloWorld/0.0.1-SNAPSHOT/$ART
+          java -jar $ART
+          echo "$http://localhost:8080/employee"
+          
+        
+          
