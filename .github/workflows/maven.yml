@@ -19,12 +19,7 @@ jobs:
         run: |
           mvn test
           mvn clean deploy
-      - name: push the target folder
-        run: |
-          git add .
-          git commit -m  "uploading created folders"
-          git push origin master
-
+      
   Analyze:
     runs-on: ubuntu-latest
     steps:
