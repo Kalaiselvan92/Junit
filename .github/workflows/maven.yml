@@ -5,7 +5,7 @@ on:
       - master
   
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Maven packages
@@ -21,7 +21,7 @@ jobs:
           mvn clean deploy
       
   Analyze:
-    needs: [build]
+    needs: [Build]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -48,7 +48,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
-  deploy-staging:
+  Deployment:
     needs: [Analyze]
     runs-on: ubuntu-latest
     steps:
