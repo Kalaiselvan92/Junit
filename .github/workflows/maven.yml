@@ -61,6 +61,8 @@ jobs:
         run: |
           chmod +x ./deployment.sh
           ./deployment.sh
+      - name: Run a one-line script
+        run: wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP
   
         
           
