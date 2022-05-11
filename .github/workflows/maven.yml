@@ -18,7 +18,7 @@ jobs:
       - name: Maven build and deploy
         run: |
           mvn test
-          curl -XPUT -u admin:Password@123 -T /home/runner/work/Junit/Junit/target/* "https://ksdemo.jfrog.io/artifactory/maven-demo/junit"  
+          
       - name: Run tests
         uses: mathiasvr/command-output@v1
         id: tests
