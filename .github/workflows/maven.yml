@@ -6,7 +6,7 @@ on:
   
 jobs:
   Build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Cache Maven packages
         uses: actions/cache@v1
@@ -18,7 +18,8 @@ jobs:
       - name: Maven build and deploy
         run: |
           mvn clean test
-          mvn clean install
+          mvn clean deploy
+      
            
      
       
@@ -59,7 +60,7 @@ jobs:
   
   Deployment:
     needs: [Analyze]
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
