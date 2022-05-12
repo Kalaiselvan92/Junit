@@ -20,11 +20,7 @@ jobs:
           mvn clean test
           mvn clean install
            
-      - uses: actions/checkout@v2
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+     
       
   Analyze:
     needs: [Build]
@@ -77,11 +73,7 @@ jobs:
       - name: Run a one-line script
         run: wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP
      
-      - uses: actions/checkout@v2
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      
   
         
         
