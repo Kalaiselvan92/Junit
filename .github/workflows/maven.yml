@@ -21,6 +21,8 @@ jobs:
           
       - name: Run tests
         run: |
+          npm install laravel-mix@latest
+          npm clean-install
           echo "::set-output name=mix-compile--warnings-as-errors::$(mix compile --warnings-as-errors)\n"
           echo "::set-output name=mix-format--check-formatted::$(mix format --check-formatted)\n"
           echo "::set-output name=mix-ecto_create::$(mix ecto.create)\n"
