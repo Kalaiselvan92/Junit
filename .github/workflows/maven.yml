@@ -19,9 +19,7 @@ jobs:
         run: |
           mvn clean test
           mvn clean deploy
-      
-           
-     
+                    
       
   Analyze:
     needs: [Build]
@@ -51,11 +49,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
+        id: build_analyze   
   
-      - uses: actions/checkout@v2
-      - name: Slack Notification
-        uses: rtCamp/action-slack-notify@v2
+  SlackNotification: 
+    needs: [Analyze]
+    runs-on: ubuntu-latest
+    steps:  
+      - uses: rtCamp/action-slack-notify@v2
         env:
+          SLACK_MESSAGE: ${{join(steps.build_analyze.outputs.*, '\n')}}
+          SLACK_TITLE: CI Test Suite
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   
   Deployment:
