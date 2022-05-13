@@ -19,7 +19,19 @@ jobs:
         run: |
           mvn clean test
           mvn clean deploy
-                    
+      
+      - name: call API
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://dummy.restapiexample.com/api/v1/employee/1'
+          method: 'GET'
+        #  username: ${{ secrets.AWX_USER }}
+        #  password: ${{ secrets.AWX_PASSWORD }}
+               
+      - name: Show Response
+        run: echo ${{ steps.myRequest.outputs.response }}
+       
       
   Analyze:
     needs: [Build]
