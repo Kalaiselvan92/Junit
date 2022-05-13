@@ -19,7 +19,7 @@ jobs:
         run: |
           mvn clean test
           mvn clean deploy
-          echo $ipconfig
+          
       
       - name: call API
         id: myRequest
@@ -27,9 +27,8 @@ jobs:
         with:
           url: 'http://ip.jsontest.com/'
           method: 'POST'
-          property: Sites
-          report_type: ALL
-          
+          contentType: application/json
+          data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
                          
       - name: Show Response
         run: echo ${{ steps.myRequest.outputs.response }}
