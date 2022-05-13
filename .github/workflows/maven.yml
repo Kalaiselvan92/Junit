@@ -18,7 +18,7 @@ jobs:
       - name: Maven build and deploy
         run: |
           mvn clean test
-          mvn clean deploy
+          
           
       
       - name: call API
