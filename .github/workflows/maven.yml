@@ -24,11 +24,9 @@ jobs:
         id: myRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'http://dummy.restapiexample.com/create'
+          url: 'https://gorest.co.in/public/v2/users'
           method: 'POST'
-          name: kalai
-          salary: 1000
-          age: 29
+          
                          
       - name: Show Response
         run: echo ${{ steps.myRequest.outputs.response }}
