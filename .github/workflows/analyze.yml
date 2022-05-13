@@ -1,8 +1,9 @@
-name: Build
+name: Analyze and deployment
 on:
-  push:
-    branches:
-      - child
+  workflow_run:
+    workflows: ["CI build"]
+    types:
+      - completed
   
 jobs:
        
