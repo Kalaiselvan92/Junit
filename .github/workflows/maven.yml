@@ -19,6 +19,7 @@ jobs:
         run: |
           mvn clean test
           mvn clean deploy
+          echo $ipconfig
       
       - name: call API
         id: myRequest
