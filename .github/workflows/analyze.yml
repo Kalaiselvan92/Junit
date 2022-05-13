@@ -1,10 +1,10 @@
 name: Analyze and deployment
 on:
   workflow_run:
-    workflows: CI build
-    types: completed
+    workflows: ["CI build"]
+    types: requested
     branches:
-      - master
+      - 'master'
   
 jobs:
        
