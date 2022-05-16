@@ -2,13 +2,17 @@ name: Analyze and deployment
 on:
   workflow_run:
     workflows: ["CI build"]
+    
     types: 
        - completed
     
-  
 jobs:
        
   Analyze:
+    if: |
+        ${{ ( github.event_name == 'CI build'
+                 && github.event.workflow_run.conclusion == 'success'
+               ) }}
     
     runs-on: ubuntu-latest
     steps:
