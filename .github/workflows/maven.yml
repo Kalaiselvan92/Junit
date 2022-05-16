@@ -1,0 +1,35 @@
+name: CI build
+on:
+  push:
+    branches:
+      - master
+  
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache Maven packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - uses: actions/checkout@v2
+      - name: Maven build and deploy
+        run: |
+          mvn clean test
+          
+          
+      
+      - name: call API
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'http://ip.jsontest.com/'
+          method: 'POST'
+          contentType: application/json
+          data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
+                         
+      - name: Show Response
+        run: echo ${{ steps.myRequest.outputs.response }}
+        
