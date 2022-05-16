@@ -19,6 +19,22 @@ jobs:
         run: |
           mvn clean test
           
+      - name: 'Generate Dashboard'
+        uses: ethomson/issue-dashboard@v1
+        with:
+          config: |
+            title: 'Dashboard'
+            output:
+              format: html
+              filename: 'dashboard.html'
+            sections:
+            - title: 'push'
+              widgets:
+              - type: 'table'
+                title: 'New Pull Requests (This Week)'
+                issue_query: 'repo:libgit2/libgit2 is:open is:issue created:>{{ date("-7 days") }} sort:created-asc'
+          token: ${{ github.token }}
+          
           
       
       - name: call API
