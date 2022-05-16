@@ -1,6 +1,6 @@
 name: CI build
 on:
-  push:
+  pull_request:
     branches:
       - master
   
@@ -28,10 +28,10 @@ jobs:
               format: html
               filename: 'dashboard.html'
             sections:
-            - title: 'push'
+            - title: 'Pull Requests'
               widgets:
               - type: 'table'
-                title: 'push'
+                title: 'New Pull Requests (This Week)'
                 issue_query: 'repo:libgit2/libgit2 is:open is:issue created:>{{ date("-7 days") }} sort:created-asc'
           token: ${{ GITHUB.TOKEN }}
           
