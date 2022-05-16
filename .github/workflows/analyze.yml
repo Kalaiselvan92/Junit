@@ -4,15 +4,15 @@ on:
     workflows: ["CI build"]
     
     types: 
-       - completed
+       - success
     
 jobs:
        
   Analyze:
-    if: |
-        ${{ ( github.event_name == 'CI build'
-                 && github.event.workflow_run.conclusion == 'success'
-               ) }}
+    #if: |
+      #  ${{ ( github.event_name == 'CI build'
+               #  && github.event.workflow_run.conclusion == 'success'
+             #  ) }}
     
     runs-on: ubuntu-latest
     steps:
