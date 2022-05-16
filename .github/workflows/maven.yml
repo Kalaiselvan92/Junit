@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Maven build and deploy
         run: |
-          mvn clean test
+          mv clean test
           
       - name: 'Generate Dashboard'
         uses: ethomson/issue-dashboard@v1
