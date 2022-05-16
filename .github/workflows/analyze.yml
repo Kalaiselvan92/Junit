@@ -2,8 +2,9 @@ name: Analyze and deployment
 on:
   workflow_run:
     workflows: ["CI build"]
+    
     types: 
-       - success
+       - completed
     
 jobs:
        
