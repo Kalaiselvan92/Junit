@@ -1,0 +1,17 @@
+name: Slack notify if build fails
+on:
+  workflow_run:
+    workflows: ["CI build"]
+    types: 
+       - completed          
+    
+jobs:        
+ SlackNotification: 
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    runs-on: ubuntu-latest
+    steps:  
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_MESSAGE: Build job failed. Please check maven.yml workflow
+          SLACK_TITLE: Build status
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
