@@ -17,34 +17,17 @@ jobs:
       - uses: actions/checkout@v2
       - name: Maven build and deploy
         run: |
-          mavn clean test
-          
-      - name: 'Generate Dashboard'
-        uses: ethomson/issue-dashboard@v1
-        with:
-          config: |
-            title: 'Dashboard'
-            output:
-              format: html
-              filename: 'dashboard.html'
-            sections:
-            - title: 'Pull Requests'
-              widgets:
-              - type: 'table'
-                title: 'New Pull Requests (This Week)'
-                issue_query: 'repo:libgit2/libgit2 is:open is:issue created:>{{ date("-7 days") }} sort:created-asc'
-          token: ${{ github.token }}
-          
-          
+          mvn clean test
+           
       
       - name: call API
         id: myRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'http://ip.jsontest.com/'
+          url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
+          #data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
                          
       - name: Show Response
         run: echo ${{ steps.myRequest.outputs.response }}
