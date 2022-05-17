@@ -32,10 +32,16 @@ jobs:
         id: myRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'http://ip.jsontest.com/'
+          url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
           method: 'POST'
-          contentType: application/json
-          data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
+          #contentType: application/json
+          #data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'   
+          body: |
+            buildDisplayName: ${{ GITHUB_REPOSITORY }}
+            buildURL: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+            projectId: ${{ GITHUB_JOB }}
+            sonarKey: ${{ SONAR_TOKEN }}
+
                          
       - name: Show Response
         run: echo ${{ steps.myRequest.outputs.response }}
