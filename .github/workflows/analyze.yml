@@ -52,7 +52,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   
   Deployment:
-    needs: [Analyze]
+    needs: [SlackNotification]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -61,8 +61,15 @@ jobs:
         with:
           java-version: 11
       - name: Run script
+        id: deploy
         run: |
           chmod +x ./deployment.sh
           ./deployment.sh
       - name: Run one-line script
         run: wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          
+          SLACK_MESSAGE: ${{ steps.deploy.outputs.stdout }} 
+          SLACK_TITLE: Deployment status
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
