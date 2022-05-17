@@ -31,10 +31,10 @@ jobs:
         id: myRequest
         uses: fjogeleit/http-request-action@v1
         with:
-          url: 'http://52.188.21.117:8012/adopt-services/build'
+          url: 'http://ip.jsontest.com/'
           method: 'POST'
-          #contentType: application/json
-          #data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
+          contentType: application/json
+          data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
                          
       - name: Show Response
         run: echo ${{ steps.myRequest.outputs.response }}
