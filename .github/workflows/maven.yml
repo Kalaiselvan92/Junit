@@ -22,7 +22,7 @@ jobs:
       - uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: ${{ steps.do-stuff.outputs.stdout }} 
+          SLACK_MESSAGE: ${{ steps.do-stuff.outputs.response }} 
           SLACK_TITLE: CI Test Suite
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
            
