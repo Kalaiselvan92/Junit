@@ -4,6 +4,7 @@ on:
     workflows: ["CI build"]
     types: 
        - completed
+       - successfull 
    
     
 jobs:
