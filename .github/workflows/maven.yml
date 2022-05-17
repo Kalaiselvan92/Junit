@@ -19,6 +19,7 @@ jobs:
         id: do-stuff
         run: |
           mvn clean test
+          mvn clean deploy
       - uses: rtCamp/action-slack-notify@v2
         env:
           
