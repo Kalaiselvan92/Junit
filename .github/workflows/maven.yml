@@ -26,7 +26,7 @@ jobs:
         with:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
-          contentType: application/json
+          #contentType: application/json
           #data: '{ "property": ["Sites"], "report_type" : ["ALL"] }'                  
                          
       - name: Show Response
