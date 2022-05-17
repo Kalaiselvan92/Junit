@@ -21,7 +21,7 @@ jobs:
           mvn clean test
       - name: Use jq to process JSON output from above command
         run: |
-          echo ${{ steps.do-stuff.outputs.var }}
+          echo ${{ steps.do-stuff.outputs.var }} | jq '{id: .[].id}'
            
       
       - name: call API
