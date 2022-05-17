@@ -2,13 +2,15 @@ name: Analyze and deployment
 on:
   workflow_run:
     workflows: ["CI build"]
-    
     types: 
-       - requested
+       - completed
+   
     
 jobs:
        
   Analyze:
+    
+    if: ${{ success() }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
