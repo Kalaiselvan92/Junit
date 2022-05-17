@@ -35,7 +35,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": "github.${GITHUB_RUN_NUMBER}", "buildDuration": "00:00:56", "buildStartDate": "2022-05-16T13:50:03.749Z", "buildStatus": true,  "buildURL": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",  "projectId": 59 }'
+          data: '{ "buildDisplayName": "github.${GITHUB_RUN_NUMBER}", "buildDuration": "Tue, May 17, 2022  5:52:49 PM", "buildStartDate": "2022-05-16T13:50:03.749Z", "buildStatus": true,  "buildURL": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",  "projectId": 59 }'
          
 
                          
