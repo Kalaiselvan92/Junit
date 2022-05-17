@@ -19,9 +19,12 @@ jobs:
         id: do-stuff
         run: |
           mvn clean test
-      - name: Use jq to process JSON output from above command
-        run: |
-          echo ${{ steps.do-stuff.outputs.var }} | jq '{id: .[].id}'
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          
+          SLACK_MESSAGE: ${{ steps.do-stuff.outputs.stdout }} 
+          SLACK_TITLE: CI Test Suite
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
            
       
       - name: call API
