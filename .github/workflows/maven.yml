@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Cache Maven packages
-        id: do-stuff
         uses: actions/cache@v1
         with:
           path: ~/.m2
@@ -17,6 +16,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
       - uses: actions/checkout@v2
       - name: Maven build and deploy
+        id: do-stuff
         run: |
           mvn clean test
       - name: Use jq to process JSON output from above command
