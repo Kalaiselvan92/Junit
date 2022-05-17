@@ -18,7 +18,7 @@ jobs:
       - name: Maven build and deploy
         id: do-stuff
         run: |
-          mavn clean test
+          mvn clean test
           #mvn clean deploy
       - uses: rtCamp/action-slack-notify@v2
         env:
