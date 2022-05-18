@@ -39,12 +39,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
           
-  
-  SlackNotification: 
-    needs: [Analyze]
-    runs-on: ubuntu-latest
-    steps:  
-      - uses: rtCamp/action-slack-notify@v2
+      - name: Slack Notification
+        uses: rtCamp/action-slack-notify@v2
         env:
           
           SLACK_MESSAGE: ${{ steps.tests.outputs.stdout }} 
@@ -52,7 +48,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   
   Deployment:
-    needs: [SlackNotification]
+    needs: [Analyze]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -61,11 +57,11 @@ jobs:
         with:
           java-version: 11
       - name: Run script
-        id: deploy
         run: |
           chmod +x ./deployment.sh
           ./deployment.sh
       - name: Run one-line script
+        id: deploy
         run: wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP
       - uses: rtCamp/action-slack-notify@v2
         env:
