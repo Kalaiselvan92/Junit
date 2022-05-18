@@ -39,6 +39,13 @@ jobs:
         
         #  echo "run=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
          # echo "ci=$CI" >> $GITHUB_ENV
+      - name: variable
+        id: env
+        run: |
+          
+          echo "::set-output name=env::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "::set-output name=num::$GITHUB_RUN_NUMBER"
+          echo "::set-output name=ci::$CI"
           
       - name: call API
         id: myRequest
@@ -47,7 +54,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": ${GITHUB_RUN_NUMBER}, "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": ${CI}  "buildURL": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",  "projectId": 59 }'
+          data: '{ "buildDisplayName": github.${{ steps.env.outputs.num }}, "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": ${{ steps.env.outputs.env }},  "projectId": 59 }'
          
 
                          
