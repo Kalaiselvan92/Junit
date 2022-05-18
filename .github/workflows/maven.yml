@@ -20,7 +20,7 @@ jobs:
         run: |
           sudo unlink /etc/localtime
           sudo ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-          echo "::set-output name=date::$(date +'%Y%m%dT%H%M%S')"
+          echo "::set-output name=date::$(($(date +%s%N)/1000000))"
       - name: Maven build and deploy
         id: do-stuff
         run: |
@@ -54,7 +54,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": "${{ steps.date.outputs.date }}", "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.env }}",  "projectId": 59 }'
+          data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.env }}",  "projectId": 59 }'
          
 
                          
