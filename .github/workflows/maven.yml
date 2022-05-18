@@ -15,6 +15,12 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - uses: actions/checkout@v2
+      - name: current date
+        id: date
+        run: |
+          sudo unlink /etc/localtime
+          sudo ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+          echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Maven build and deploy
         id: do-stuff
         run: |
@@ -35,7 +41,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": "github.${GITHUB_RUN_NUMBER}", "buildDuration": "00:00:56", "buildStartDate": 1652790614392, "buildStatus": true,  "buildURL": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}",  "projectId": 59 }'
+          data: '{ "buildDisplayName": "github.$GITHUB_RUN_NUMBER", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": $CI,  "buildURL": "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID",  "projectId": 59 }'
          
 
                          
