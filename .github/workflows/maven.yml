@@ -33,7 +33,13 @@ jobs:
           SLACK_TITLE: CI Test Suite
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
            
-      
+      - name: Env variables
+        run: |
+          echo "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_ENV
+        
+          echo "run=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+          echo "ci=$CI" >> $GITHUB_ENV
+          
       - name: call API
         id: myRequest
         uses: fjogeleit/http-request-action@v1
@@ -41,7 +47,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": github.$GITHUB_RUN_NUMBER, "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": "$CI"  "buildURL": $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID,  "projectId": 59 }'
+          data: '{ "buildDisplayName": "github.${{ env.RUN }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": "${{ env.CI }}"  "buildURL": "${{ env.URL }}",  "projectId": 59 }'
          
 
                          
