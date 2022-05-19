@@ -26,10 +26,10 @@ jobs:
       - name: Maven build and deploy
         id: buildTests
         run: |
-          mavn clean test
+          CImavn clean test
           #mvn clean deploy
       - name: call API
-        if: steps.buildTests.outcome == 'failure'        
+        if: steps.buildTests.outcome == 'failure' 'Error'        
         uses: fjogeleit/http-request-action@v1
         with:
             url: 'http://52.188.21.117:8012/adopt-services/build'
