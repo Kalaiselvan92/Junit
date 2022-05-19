@@ -24,13 +24,12 @@ jobs:
           echo "::set-output name=ci::$CI"
           echo "::set-output name=date::$(($(date +%s%N)/1000000))"
       - name: Maven build and deploy
-        id: buildstatus
         run: |
           mavn clean test
           #mvn clean deploy
-        continue-on-error: true
+        
       - name: call API
-        if: job.steps.buildstatus.status == failure() 
+        if: ${{ failure() }}
         
         uses: fjogeleit/http-request-action@v1
         with:
