@@ -33,7 +33,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
       - name: Build and analyze
-        id: tests
+       
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -43,7 +43,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: ${{ steps.tests.outputs.stdout }} 
+          SLACK_MESSAGE: Sonar analysis completed.you can find the results at:https://sonarcloud.io/dashboard?id=Kalaiselvan92_Junit 
           SLACK_TITLE: CI Test Suite
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   
@@ -62,10 +62,11 @@ jobs:
           ./deployment.sh
       - name: Run one-line script
         id: deploy
-        run: wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP
+        run: 
+          echo "::set-output name=op::$(wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP)"
       - uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: ${{ steps.deploy.outputs.stdout }} 
+          SLACK_MESSAGE: ${{ steps.deploy.outputs.op }} 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
