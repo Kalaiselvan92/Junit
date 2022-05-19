@@ -85,7 +85,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: Sonar analysis completed.you can find the results at: https://sonarcloud.io/dashboard?id=Kalaiselvan92_Junit 
+          SLACK_MESSAGE: Sonar analysis completed.you can find the results at:https://sonarcloud.io/dashboard?id=Kalaiselvan92_Junit 
           SLACK_TITLE: CI Test Suite
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   
