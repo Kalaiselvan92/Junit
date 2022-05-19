@@ -8,56 +8,42 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - name: Cache Maven packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: ${{ runner.os }}-m2
+      
       - uses: actions/checkout@v2
-      - name: current date
-        id: date
+      - name: Set date to IST
         run: |
           sudo unlink /etc/localtime
           sudo ln -s /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
-          echo "::set-output name=date::$(($(date +%s%N)/1000000))"
-      - name: Maven build and deploy
-        id: do-stuff
-        run: |
-          mvn clean test
-          #mvn clean deploy
-      - uses: rtCamp/action-slack-notify@v2
-        env:
           
-          SLACK_MESSAGE: ${{ steps.do-stuff.outputs.response }} 
-          SLACK_TITLE: CI Test Suite
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-           
-      #- name: Env variables
-       # run: |
-       #   echo "url=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" >> $GITHUB_ENV
-        
-        #  echo "run=$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
-         # echo "ci=$CI" >> $GITHUB_ENV
       - name: variable
         id: env
         run: |
           
-          echo "::set-output name=env::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "::set-output name=url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
           echo "::set-output name=num::$GITHUB_RUN_NUMBER"
           echo "::set-output name=ci::$CI"
+          echo "::set-output name=date::$(($(date +%s%N)/1000000))"
+      - name: Maven build and deploy
+        run: |
+          mvn clean test
+          #mvn clean deploy
+      
+  Slack_Notification:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rtCamp/action-slack-notify@v2
+        env:
           
-      - name: call API
-        id: myRequest
-        uses: fjogeleit/http-request-action@v1
-        with:
-          url: 'http://52.188.21.117:8012/adopt-services/build'
-          method: 'POST'
-          contentType: application/json
-          data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.date.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.env }}",  "projectId": 59 }'
-         
-
-                         
-      - name: Show Response
-        run: echo ${{ steps.myRequest.outputs.response }}
-        
+          SLACK_MESSAGE: Build ${{ steps.env.outputs.num }} completed
+          SLACK_TITLE: CI Test Suite
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
+      
+          
+     # - name: call API
+     #   uses: fjogeleit/http-request-action@v1
+      #  with:
+       #   url: 'http://52.188.21.117:8012/adopt-services/build'
+        #  method: 'POST'
+         # contentType: application/json
+          #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
+ 
