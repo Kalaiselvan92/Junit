@@ -25,7 +25,7 @@ jobs:
           echo "::set-output name=date::$(($(date +%s%N)/1000000))"
       - name: Maven build and deploy
         run: |
-          mavn clean test
+          mvn clean test
           #mvn clean deploy
         
       - name: call API
@@ -39,6 +39,15 @@ jobs:
             data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
         
   
+      - name: call Adopt API
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'http://52.188.21.117:8012/adopt-services/build'
+          method: 'POST'
+          contentType: application/json
+          data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
+ 
+      
       - name: Slack Notification 
         uses: rtCamp/action-slack-notify@v2
         env:
@@ -48,11 +57,4 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
       
           
-    #  - name: call API
-    #    uses: fjogeleit/http-request-action@v1
-     #   with:
-      #    url: 'http://52.188.21.117:8012/adopt-services/build'
-       #   method: 'POST'
-        #  contentType: application/json
-         # data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
- 
+     
