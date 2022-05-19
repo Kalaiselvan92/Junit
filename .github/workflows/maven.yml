@@ -24,12 +24,11 @@ jobs:
           echo "::set-output name=ci::$CI"
           echo "::set-output name=date::$(($(date +%s%N)/1000000))"
       - name: Maven build and deploy
-        id: buildTests
         run: |
-          CImavn clean test
+          mavn clean test
           #mvn clean deploy
       - name: call API
-        if: steps.buildTests.outcome == 'Error'        
+        if: ${{ failure() }}        
         uses: fjogeleit/http-request-action@v1
         with:
             url: 'http://52.188.21.117:8012/adopt-services/build'
