@@ -80,7 +80,7 @@ jobs:
         #  method: 'POST'
          # contentType: application/json
           #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": long, "sonarKey": "Kalaiselvan92_Junit" }'
-}
+
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
