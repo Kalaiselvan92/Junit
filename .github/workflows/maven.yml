@@ -29,7 +29,7 @@ jobs:
           CImavn clean test
           #mvn clean deploy
       - name: call API
-        if: steps.buildTests.outcome == 'failure' 'Error'        
+        if: steps.buildTests.outcome == 'Error'        
         uses: fjogeleit/http-request-action@v1
         with:
             url: 'http://52.188.21.117:8012/adopt-services/build'
