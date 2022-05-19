@@ -63,7 +63,7 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-          echo "::set-output name=op::$(wget --spider -S "http://localhost:8080/employee" 2>&1 | grep -F HTTP)"
+          echo "::set-output name=op::$(wget --spider -S "http://localhost:8080/employee" 2>&1)"
       - uses: rtCamp/action-slack-notify@v2
         env:
           
