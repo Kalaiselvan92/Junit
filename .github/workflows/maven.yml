@@ -31,14 +31,13 @@ jobs:
         continue-on-error: true
       - name: call API
         if: job.steps.buildstatus.status == failure() 
-        env: 
-          CI: false
+        
         uses: fjogeleit/http-request-action@v1
         with:
             url: 'http://52.188.21.117:8012/adopt-services/build'
             method: 'POST'
             contentType: application/json
-            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": "${CI}", "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
+            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
         
   
       - name: Slack Notification 
