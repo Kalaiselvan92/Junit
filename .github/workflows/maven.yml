@@ -30,6 +30,7 @@ jobs:
           #mvn clean deploy
       
       - name: job variable
+        if: always()
         id: jobstatus
         run: |
           
