@@ -23,6 +23,7 @@ jobs:
           echo "::set-output name=num::$GITHUB_RUN_NUMBER"
           echo "::set-output name=ci::$CI"
           echo "::set-output name=date::$(date +%s)"
+          echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Maven build and deploy
         run: |
           mvn clean test
@@ -73,7 +74,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
           
-     # - name: call Adopt API
+     # - name: call Adopt-Analyze API
       #  uses: fjogeleit/http-request-action@v1
       #  with:
        #   url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
@@ -105,11 +106,22 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -F HTTP)"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
+        
+            
+      #- name: call Adopt-Deployment API
+       # uses: fjogeleit/http-request-action@v1
+        
+        #with:
+         # url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
+          #method: 'POST'
+          #contentType: application/json
+          #data: '{"approvedDate": "${{ steps.env.outputs.approvedate}}","buildNumber": "${{ steps.env.outputs.num }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": boolean,"environment": "staging","id": long,"projectName": "Junit"}'
+      
       - uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: ${{ steps.deploy.outputs.op }} 
+          SLACK_MESSAGE: HTTP-${{ steps.deploy.outputs.op }} 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
