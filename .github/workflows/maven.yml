@@ -26,20 +26,26 @@ jobs:
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Maven build and deploy
         run: |
-          mven clean test
+          mavn clean test
           #mvn clean deploy
         
       - name: call API
-        if: always() 
-        run: echo $CI      
-           
+        if: ${{ job.status == 'failure' }}
+        
+        uses: fjogeleit/http-request-action@v1
+        with:
+            url: 'http://52.188.21.117:8012/adopt-services/build'
+            method: 'POST'
+            contentType: application/json
+            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": false, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
+        
   
-      - name: call  API
+      - name: call Adopt API
         uses: fjogeleit/http-request-action@v1
         with:
           url: 'http://52.188.21.117:8012/adopt-services/build'
           method: 'POST'
-          contentType: application/son
+          contentType: application/json
           data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
  
       
@@ -118,7 +124,3 @@ jobs:
           SLACK_MESSAGE: HTTP-${{ steps.deploy.outputs.op }} 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-      
-          
-     
