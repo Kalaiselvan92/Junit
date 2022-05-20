@@ -31,7 +31,7 @@ jobs:
         
       - name: call API
         if: always() 
-        run: echo ${{ job.status }}      
+        run: echo $CI      
            
   
       - name: call  API
