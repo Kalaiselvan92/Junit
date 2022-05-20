@@ -26,18 +26,18 @@ jobs:
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Maven build and deploy
         run: |
-          mavn clean test
+          mvn clean test
           #mvn clean deploy
         
       - name: call API
-        if: ${{ job.status == 'failure' }}
-        
+        if: always()
+                
         uses: fjogeleit/http-request-action@v1
         with:
             url: 'http://52.188.21.117:8012/adopt-services/build'
             method: 'POST'
             contentType: application/json
-            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": false, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
+            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ job.status=='success'?true:false }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
         
   
       - name: call Adopt API
