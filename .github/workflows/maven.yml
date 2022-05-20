@@ -26,7 +26,7 @@ jobs:
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Maven build and deploy
         run: |
-          mven clean test
+          mvn clean test
           #mvn clean deploy
       
       - name: job variable
@@ -45,14 +45,6 @@ jobs:
             contentType: application/json
             data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
   
-      #- name: call Adopt API
-       # uses: fjogeleit/http-request-action@v1
-        #with:
-         # url: 'http://52.188.21.117:8012/adopt-services/build'
-          #method: 'POST'
-          #contentType: application/json
-          #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.env.outputs.ci }}, "buildURL": "${{ steps.env.outputs.url }}",  "projectId": 59 }'
- 
       
       - name: Slack Notification 
         uses: rtCamp/action-slack-notify@v2
@@ -72,6 +64,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: variable
+        id: env
+        run: |
+          
+          echo "::set-output name=url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "::set-output name=num::$GITHUB_RUN_NUMBER"
+          echo "::set-output name=ci::$CI"
+          echo "::set-output name=date::$(date +%s)"
+          echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
+      
       - name: Build and analyze
         id: tests
         env:
@@ -80,12 +82,13 @@ jobs:
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
           
      # - name: call Adopt-Analyze API
-      #  uses: fjogeleit/http-request-action@v1
-      #  with:
-       #   url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
-        #  method: 'POST'
-         # contentType: application/json
-          #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": long, "sonarKey": "Kalaiselvan92_Junit" }'
+      #  if: always()
+       # uses: fjogeleit/http-request-action@v1
+        #with:
+         # url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
+          #method: 'POST'
+          #contentType: application/json
+          #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "Kalaiselvan92_Junit" }'
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
@@ -104,6 +107,15 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
+      - name: variable
+        id: env
+        run: |
+          
+          echo "::set-output name=url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+          echo "::set-output name=num::$GITHUB_RUN_NUMBER"
+          echo "::set-output name=ci::$CI"
+          echo "::set-output name=date::$(date +%s)"
+          echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Run script
         run: |
           chmod +x ./deployment.sh
@@ -111,17 +123,23 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
-        
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employe 2>&1 | grep -F HTTP)"
+      - name: deployment job variable
+        if: always()
+        id: jobstatus
+        run: |
+          
+          echo "::set-output name=status::${{ job.status == 'success'}}" 
             
-      #- name: call Adopt-Deployment API
-       # uses: fjogeleit/http-request-action@v1
+      - name: call Adopt-Deployment API
+        if: always()
+        uses: fjogeleit/http-request-action@v1
         
-        #with:
-         # url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
-          #method: 'POST'
-          #contentType: application/json
-          #data: '{"approvedDate": "${{ steps.env.outputs.approvedate}}","buildNumber": "${{ steps.env.outputs.num }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": boolean,"environment": "staging","id": long,"projectName": "Junit"}'
+        with:
+          url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
+          method: 'POST'
+          contentType: application/json
+          data: '{"buildNumber": "${{ steps.env.outputs.num }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectName": "Junit"}'
       
       - uses: rtCamp/action-slack-notify@v2
         env:
