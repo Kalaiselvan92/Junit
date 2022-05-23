@@ -17,4 +17,4 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       - name: first workflow job number
         run: 
-          echo "${{github.workflow_run.run_number}}"
+          echo "${{github.event.workflow_run.run_number}}"
