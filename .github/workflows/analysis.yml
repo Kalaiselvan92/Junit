@@ -75,7 +75,7 @@ Analyze:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | egrep -o "200|failed|refused")"
       - name: deployment job variable
         if: always()
         id: jobstatus
