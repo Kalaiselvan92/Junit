@@ -5,7 +5,8 @@ on:
     types: 
        - completed
 
-Analyze:
+jobs:
+  Analyze:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
@@ -49,7 +50,6 @@ Analyze:
           SLACK_MESSAGE: Sonar analysis completed.you can find the results at:https://sonarcloud.io/dashboard?id=Kalaiselvan92_Junit 
           SLACK_TITLE: Code Analysis
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  
   Deployment:
     needs: [Analyze]
     runs-on: ubuntu-latest
