@@ -15,3 +15,6 @@ jobs:
           SLACK_MESSAGE: Build job failed. Please check maven.yml workflow
           SLACK_TITLE: Build status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+      - name: first workflow job number
+        run: 
+          echo "${{github.run_number.workflow_run}}"
