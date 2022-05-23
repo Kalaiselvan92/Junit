@@ -21,7 +21,7 @@ Analyze:
         run: |
           
           echo "::set-output name=url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-         # echo "::set-output name=num::$GITHUB_RUN_NUMBER"
+          echo "::set-output name=num::$GITHUB_RUN_NUMBER"
           echo "::set-output name=ci::$CI"
           echo "::set-output name=date::$(date +%s)"
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
@@ -64,7 +64,7 @@ Analyze:
         run: |
           
           echo "::set-output name=url::$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
-          #echo "::set-output name=num::$GITHUB_RUN_NUMBER"
+          #echo "::set-output name=num::${{ github.event.workflow_run.run_number }}"
           echo "::set-output name=ci::$CI"
           echo "::set-output name=date::$(date +%s)"
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
