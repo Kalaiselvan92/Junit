@@ -1,7 +1,7 @@
 name: Slack notify if build fails
 on:
   workflow_run:
-    workflows: ["CI build"]
+    workflows: ["CI/CD"]
     types: 
        - completed          
     
