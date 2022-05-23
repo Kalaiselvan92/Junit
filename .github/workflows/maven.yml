@@ -123,7 +123,7 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employe 2>&1 | grep -o "200")"
       - name: deployment job variable
         if: always()
         id: jobstatus
@@ -139,7 +139,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
           method: 'POST'
           contentType: application/json
-          data: '{"buildNumber": "${{ steps.env.outputs.num }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectName": "Junit"}'
+          data: '{"buildNumber": "${{ steps.env.outputs.num }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "Junit"}'
       
    #   - name: deployment job variable
     #    if: steps.deploy.outputs.op == 'failed || refused'
