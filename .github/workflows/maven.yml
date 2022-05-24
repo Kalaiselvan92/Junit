@@ -51,6 +51,6 @@ jobs:
         env:
           
           SLACK_MESSAGE: Build ${{ steps.env.outputs.num }} completed
-          SLACK_TITLE: CI Test Suite
+          SLACK_TITLE: Build status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
   
