@@ -76,13 +76,14 @@ jobs:
         id: deploy
         run: 
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employei 2>&1 | egrep -o "200|failed")"
-           echo "${{ steps.deploy.outputs.op }}"
-      - name: deployment job variable
-        if: always()
-        id: jobstatus
-        run: |
+           ${{ steps.deploy.outputs.op }}
+           
+      #- name: deployment job variable
+       # if: always()
+        #id: jobstatus
+        #run: |
           
-          echo "::set-output name=status::${{ job.status == 'success'}}" 
+         # echo "::set-output name=status::${{ job.status == 'success'}}" 
             
   #    - name: call Adopt-Deployment API
    #     if: always()
@@ -105,6 +106,6 @@ jobs:
         if: always()
         env:
           
-          SLACK_MESSAGE: HTTP-"${{ steps.deploy.outputs.op }}" 
+          SLACK_MESSAGE: HTTP-${{ steps.deploy.outputs.op }} 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
