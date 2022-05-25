@@ -43,7 +43,7 @@ jobs:
             url: 'http://52.188.21.117:8012/adopt-services/build'
             method: 'POST'
             contentType: application/json
-            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}.123+0000, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
+            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.approvedate }}.123+0000, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
   
       
       - name: Slack Notification 
