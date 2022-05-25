@@ -75,7 +75,8 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | egrep -o "200|failed")"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employei 2>&1 | egrep -o "200|failed")"
+           echo "${{ steps.deploy.outputs.op }}"
       - name: deployment job variable
         if: always()
         id: jobstatus
@@ -104,6 +105,6 @@ jobs:
         if: always()
         env:
           
-          SLACK_MESSAGE: HTTP-${{ steps.deploy.outputs.op }} 
+          SLACK_MESSAGE: HTTP-"${{ steps.deploy.outputs.op }}" 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
