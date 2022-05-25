@@ -31,8 +31,8 @@ jobs:
         id: tests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Kalaiselvan92_Junit
+          #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=http://13.82.226.119:9000/sonar  -Dsonar.login=0509856fd81ea530443388a7a684302db0c31327 -Dsonar.projectKey=Kalaiselvan92_Junit
           
      # - name: call Adopt-Analyze API
       #  if: always()
