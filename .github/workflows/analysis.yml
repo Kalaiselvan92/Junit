@@ -32,22 +32,22 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=http://13.82.226.119:9000/sonar  -Dsonar.login=0509856fd81ea530443388a7a684302db0c31327 -Dsonar.projectKey=Kalaiselvan92_Junit
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=http://13.82.226.119:9000/sonar  -Dsonar.login=0509856fd81ea530443388a7a684302db0c31327 -Dsonar.projectKey=SpringBootHelloWorld
           
-     # - name: call Adopt-Analyze API
-      #  if: always()
-       # uses: fjogeleit/http-request-action@v1
-        #with:
-         # url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
-          #method: 'POST'
-          #contentType: application/json
-          #data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "Kalaiselvan92_Junit" }'
+      - name: call Adopt-Analyze API
+        if: always()
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
+          method: 'POST'
+          contentType: application/json
+          data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "SpringBootHelloWorld" }'
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: Sonar analysis completed.you can find the results at:https://sonarcloud.io/dashboard?id=Kalaiselvan92_Junit 
+          SLACK_MESSAGE: Sonar analysis completed.you can find the results at:http://13.82.226.119:9000/sonar/dashboard?id=SpringBootHelloWorld
           SLACK_TITLE: Code Analysis
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   Deployment:
@@ -75,10 +75,9 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employe 2>&1 | egrep -o "200|failed")"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | egrep -o "200|failed")"
            
-           
-      
+             
           
           
             
@@ -90,7 +89,7 @@ jobs:
       #    url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
        #   method: 'POST'
         #  contentType: application/json
-         # data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "Junit"}'
+         # data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
       
    #   - name: deployment job variable
     #    if: steps.deploy.outputs.op == 'failed || refused'
