@@ -12,7 +12,7 @@ jobs:
     steps:  
       - uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_MESSAGE: Build ${{github.event.workflow_run.run_number}} job failed. Please check maven.yml workflow
+          SLACK_MESSAGE: Build number ${{github.event.workflow_run.run_number}}  has failed. Please check maven.yml workflow
           SLACK_TITLE: Build status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
       

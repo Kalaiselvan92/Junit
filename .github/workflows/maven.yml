@@ -36,13 +36,13 @@ jobs:
           
           echo "::set-output name=status::${{ job.status == 'success'}}"
       
-      - name: call API
-        if: always()          
-        uses: fjogeleit/http-request-action@v1
-        with:
-            url: 'http://52.188.21.117:8012/adopt-services/build'
-            method: 'POST'
-            contentType: application/json
+     # - name: call API
+      #  if: always()          
+       # uses: fjogeleit/http-request-action@v1
+        #with:
+         #   url: 'http://52.188.21.117:8012/adopt-services/build'
+          #  method: 'POST'
+           # contentType: application/json
             #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
   
       
@@ -50,7 +50,7 @@ jobs:
         uses: rtCamp/action-slack-notify@v2
         env:
           
-          SLACK_MESSAGE: Build ${{ steps.env.outputs.num }} completed
+          SLACK_MESSAGE: Build ${{ steps.env.outputs.num }} is completed
           SLACK_TITLE: Build status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
   
