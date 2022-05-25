@@ -77,15 +77,15 @@ jobs:
         id: deploy
         run: 
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
-      - name: run notify
-        id: ok
+      - name: run ok notify
         if: steps.deploy.outputs.op == 'true'
+        id: ok
         run: |
           echo "::set-output name=status::${{ job.status == 'success'}}"   
      
-      - name: run notify
-        id: notok
+      - name: run notok notify
         if: steps.deploy.outputs.op != 'true'
+        id: notok
         run: |
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
           
