@@ -44,6 +44,7 @@ jobs:
           data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "0509856fd81ea530443388a7a684302db0c31327" }'
 
       - name: Slack Notification
+        if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
           
@@ -76,9 +77,7 @@ jobs:
         id: deploy
         run: 
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | egrep -o "200|failed")"
-           
-             
-          
+                    
           
             
   #    - name: call Adopt-Deployment API
