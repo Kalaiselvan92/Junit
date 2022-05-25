@@ -41,7 +41,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
           method: 'POST'
           contentType: application/json
-          data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "SpringBootHelloWorld" }'
+          data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "0509856fd81ea530443388a7a684302db0c31327" }'
 
       - name: Slack Notification
         uses: rtCamp/action-slack-notify@v2
