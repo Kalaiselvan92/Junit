@@ -82,6 +82,8 @@ jobs:
         if: always()        
         env:
             DEPLOYMENT_STATUS: ${{ steps.deploy.outputs.op }}
+        run:
+            $DEPLOYMENT_STATUS
           
           
             
