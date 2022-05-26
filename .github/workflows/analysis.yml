@@ -91,13 +91,13 @@ jobs:
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Run script
         run: |
-         # chmod +x ./deployment.sh
-          #./deployment.sh
-          echo "$GITHUB_SERVER_URL"
+          chmod +x ./deployment.sh
+          ./deployment.sh
+          
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(wget -O /dev/null http://192.168.1.9:8080/employee 2>&1 | grep -o "200")"
+           echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
 
       - name: deployment job variable
         if: always()
