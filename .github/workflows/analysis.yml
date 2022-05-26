@@ -95,13 +95,13 @@ jobs:
           #./deployment.sh
           echo "$GITHUB_SERVER_URL"
       - name: Run one-line script
-        #id: deploy
+        id: deploy
         run: 
-           echo "hello"
+           echo "::set-output name=op::$(date)"
 
-      - name: run notify
-        id: ok
+      - name: run notify        
         if: steps.deploy.outputs.op == 'true'
+        id: ok
         run: |
           echo "::set-output name=status::${{ job.status == 'success'}}"                   
 
