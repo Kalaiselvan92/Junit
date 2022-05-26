@@ -97,16 +97,16 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(date +'%Y%M%d')"
+           echo "::set-output name=op::$(wget -O /dev/null http://192.168.1.9:8080/employee 2>&1 | grep -o "200")"
 
       - name: deployment job variable
-        if: steps.deploy.outputs.op == 'true' 
+        if: always()
         id: jobstatus
         run: |
           
           echo "::set-output name=status::${{ job.status == 'success'}}" 
       - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op == 'true'
+        if: always()
         env:
           
           SLACK_MESSAGE: HTTP-${{ steps.jobstatus.outputs.status }} 
@@ -114,7 +114,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: call Adopt-Deployment API
-        if: steps.deploy.outputs.op == 'true'
+        if: always()
         uses: fjogeleit/http-request-action@v1
        
         with:
@@ -123,29 +123,7 @@ jobs:
           contentType: application/json
           data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
 
-      - name: deployment job variable
-        if: steps.deploy.outputs.op != 'true' 
-        id: failstatus
-        run: |
-          
-          echo "::set-output name=fstatus::${{ job.status == 'failure'}}" 
-      - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op != 'true'
-        env:
-          
-          SLACK_MESSAGE: HTTP-${{ steps.failstatus.outputs.fstatus }} 
-          SLACK_TITLE: Deployment status
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-
-      - name: call Adopt-Deployment API
-        if: steps.deploy.outputs.op != 'true'
-        uses: fjogeleit/http-request-action@v1
-       
-        with:
-          url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
-          method: 'POST'
-          contentType: application/json
-          data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.failstatus.outputs.fstatus }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
+     
 
       
       
