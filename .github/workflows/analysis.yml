@@ -52,7 +52,7 @@ jobs:
           SLACK_TITLE: Code Analysis
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   Deployment:
-    needs: [Analyze]
+    #needs: [Analyze]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -77,6 +77,7 @@ jobs:
         id: deploy
         run: 
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
+
       - name: run notify
         id: ok
         if: steps.deploy.outputs.op == 'true'
@@ -89,6 +90,23 @@ jobs:
         run: |
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
           
+
+      - name: run ok notify
+        if: steps.deploy.outputs.op == 'true'
+        id: ok
+        run: |
+          echo "::set-output name=status::${{ job.status == 'success'}}"   
+      - uses: rtCamp/action-slack-notify@v2
+        if: |
+          always()
+          steps.deploy.outputs.op == 'true'
+        env:
+          
+          SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}
+          SLACK_TITLE: Deployment status
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+     
+
       - name: call Adopt-Deployment API
         if: steps.deploy.outputs.op == 'true'
         uses: fjogeleit/http-request-action@v1
@@ -98,6 +116,22 @@ jobs:
           method: 'POST'
           contentType: application/json
           data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.ok.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
+      
+      - name: run notok notify
+        if: steps.deploy.outputs.op != 'true'
+        id: notok
+        run: |
+          echo "::set-output name=status::${{ job.status == 'failure'}}"                   
+          
+      - uses: rtCamp/action-slack-notify@v2
+        if: |
+          always()
+          steps.deploy.outputs.op != 'true'
+        env:
+          
+          SLACK_MESSAGE: HTTP- ${{ steps.notok.outputs.status }}
+          SLACK_TITLE: Deployment status
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
     
       - name: call Adopt-Deployment API
         if: steps.deploy.outputs.op != 'true'
@@ -110,18 +144,9 @@ jobs:
           data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.notok.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
 
       
-      - uses: rtCamp/action-slack-notify@v2
-        #if: steps.deploy.outputs.op == 'true'
-        env:
-          
-          SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}
-          SLACK_TITLE: Deployment status
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
       
-      - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op != 'true'
-        env:
-          
-          SLACK_MESSAGE: HTTP- ${{ steps.notok.outputs.status }}
-          SLACK_TITLE: Deployment status
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+      
+      
+      

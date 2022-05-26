@@ -1,8 +1,10 @@
 #!/bin/bash
 
-URL=curl https://ksdemo.jfrog.io/artifactory/api/storage/maven-demo/com/javainuse/SpringBootHelloWorld/1.1.1-SNAPSHOT
 
-ART=$($URL | grep '.uri' | awk ' { print $3} ' | sed s/\"//g | sed s/,//g | tr -d '/' | grep jar | awk 'END{print}')
+URL=https://ksdemo.jfrog.io/artifactory/api/storage/maven-demo/com/javainuse/SpringBootHelloWorld/1.1.1-SNAPSHOT
+
+
+ART=$(curl $URL | grep '.uri' | awk ' { print $3} ' | sed s/\"//g | sed s/,//g | tr -d '/' | grep jar | awk 'END{print}')
 
 cd /home/runner; wget --user admin --password Password@123  $URL/$ART; ls -lrt; 
 
