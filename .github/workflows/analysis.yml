@@ -89,13 +89,8 @@ jobs:
        # if: steps.deploy.outputs.op != 'true'
         run: |
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
-          
 
-      - name: run ok notify
-        if: steps.deploy.outputs.op == 'true'
-        id: ok
-        run: |
-          echo "::set-output name=status::${{ job.status == 'success'}}"   
+        
       - uses: rtCamp/action-slack-notify@v2
         if: always()
           
@@ -123,9 +118,8 @@ jobs:
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
           
       - uses: rtCamp/action-slack-notify@v2
-        if: |
-          always()
-          steps.deploy.outputs.op != 'true'
+        if: always()
+          
         env:
           
           SLACK_MESSAGE: HTTP- ${{ steps.notok.outputs.status }}
