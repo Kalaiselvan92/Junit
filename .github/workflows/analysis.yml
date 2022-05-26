@@ -100,7 +100,7 @@ jobs:
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
 
       - name: deployment job variable
-        if: always()
+        if: ${{ steps.deploy.outputs.op }} == 200
         id: jobstatus
         run: |
           
