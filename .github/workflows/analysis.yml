@@ -97,58 +97,21 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(date)"
+           echo "::set-output name=op::$(date +'%Y%M%d')"
 
-      - name: run notify        
-        if: steps.deploy.outputs.op == 'true'
-        id: ok
+      - name: deployment job variable
+        if: always()
+        id: jobstatus
         run: |
-          echo "::set-output name=status::${{ job.status == 'success'}}"                   
-
-        
+          
+          echo "::set-output name=status::${{ job.status == 'success'}}" 
       - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op == 'true'         
+        if: always()
         env:
           
-          SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}
+          SLACK_MESSAGE: HTTP-${{ steps.jobstatus.outputs.status }} 
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-     
-
-      - name: call Adopt-Deployment API
-        if: steps.deploy.outputs.op == 'true'
-        uses: fjogeleit/http-request-action@v1
-       
-        with:
-          url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
-          method: 'POST'
-          contentType: application/json
-          data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.ok.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
-      
-      - name: run notok notify
-        if: steps.deploy.outputs.op != 'true'
-        id: notok
-        run: |
-          echo "::set-output name=status::${{ job.status == 'failure'}}"                   
-          
-      - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op != 'true'
-          
-        env:
-          
-          SLACK_MESSAGE: HTTP- ${{ steps.notok.outputs.status }}
-          SLACK_TITLE: Deployment status
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-    
-      - name: call Adopt-Deployment API
-        if: steps.deploy.outputs.op != 'true'
-        uses: fjogeleit/http-request-action@v1
-       
-        with:
-          url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
-          method: 'POST'
-          contentType: application/json
-          data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.notok.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
 
       
 
