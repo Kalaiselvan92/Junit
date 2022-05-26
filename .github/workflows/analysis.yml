@@ -82,13 +82,7 @@ jobs:
         id: ok
         if: steps.deploy.outputs.op == 'true'
         run: |
-          echo "::set-output name=status::${{ job.status == 'success'}}"   
-     
-      - name: run notify
-        id: notok
-       # if: steps.deploy.outputs.op != 'true'
-        run: |
-          echo "::set-output name=status::${{ job.status == 'failure'}}"                   
+          echo "::set-output name=status::${{ job.status == 'success'}}"                   
 
         
       - uses: rtCamp/action-slack-notify@v2
