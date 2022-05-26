@@ -86,8 +86,7 @@ jobs:
 
         
       - uses: rtCamp/action-slack-notify@v2
-        if: always()
-          
+        if: steps.deploy.outputs.op == 'true'         
         env:
           
           SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}
@@ -112,7 +111,7 @@ jobs:
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
           
       - uses: rtCamp/action-slack-notify@v2
-        if: always()
+        if: steps.deploy.outputs.op != 'true'
           
         env:
           
