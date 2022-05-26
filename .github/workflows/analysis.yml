@@ -68,7 +68,7 @@ jobs:
           SLACK_TITLE: Code Analysis
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   Deployment:
-    needs: [Analyze]
+    #needs: [Analyze]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

@@ -6,6 +6,9 @@
 	<groupId>com.javainuse</groupId>
 	<artifactId>springboothelloWorld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+
+	<artifactId>SpringBootHelloWorld</artifactId>
+	<version>0.1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>SpringBootHelloWorld</name>
