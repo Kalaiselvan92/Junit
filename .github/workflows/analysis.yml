@@ -100,7 +100,7 @@ jobs:
            echo "::set-output name=op::$(ate +'%Y%M%d')"
 
       - name: deployment job variable
-        if: always()
+        if: steps.deploy.outputs.op == 'true' 
         id: jobstatus
         run: |
           
