@@ -95,9 +95,9 @@ jobs:
           #./deployment.sh
           echo "$GITHUB_SERVER_URL"
       - name: Run one-line script
-        id: deploy
+        #id: deploy
         run: 
-           echo "::set-output name=op::$(date +'%Y-%m-%d')"
+           echo "hello"
 
       - name: run notify
         id: ok
