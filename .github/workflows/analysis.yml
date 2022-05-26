@@ -97,9 +97,8 @@ jobs:
         run: |
           echo "::set-output name=status::${{ job.status == 'success'}}"   
       - uses: rtCamp/action-slack-notify@v2
-        if: |
-          always()
-          steps.deploy.outputs.op == 'true'
+        if: always()
+          
         env:
           
           SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}
