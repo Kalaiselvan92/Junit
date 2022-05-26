@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.javainuse</groupId>
-	<artifactId>SpringBootHelloWorld</artifactId>
+	<artifactId>springboothelloWorld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -22,8 +22,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<sonar.organization>kalaiselvan92</sonar.organization>
-  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		
 	</properties>
 
 	<dependencies>
@@ -64,12 +63,12 @@
     		<repository>
         		<id>central</id>
        			<name>myjfrog-releases</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/maven-demo</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-release-local/</url>
     		</repository>	  
     		<snapshotRepository>
        			<id>snapshots</id>
        			<name>myjfrog-snapshots</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/maven-demo/</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-snapshot-local/</url>
     		</snapshotRepository>
   	</distributionManagement>
 
