@@ -77,21 +77,21 @@ jobs:
         id: deploy
         run: 
            echo "::set-output name=op::$(wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200")"
-     - name: run notify
-       id: ok
-       if: steps.deploy.outputs.op == 'true'
-       run: |
+      - name: run notify
+        id: ok
+        if: steps.deploy.outputs.op == 'true'
+        run: |
           echo "::set-output name=status::${{ job.status == 'success'}}"   
      
-     - name: run notify
-       id: notok
-       if: steps.deploy.outputs.op != 'true'
-       run: |
+      - name: run notify
+        id: notok
+       # if: steps.deploy.outputs.op != 'true'
+        run: |
           echo "::set-output name=status::${{ job.status == 'failure'}}"                   
           
-     - name: call Adopt-Deployment API
-       if: steps.deploy.outputs.op == 'true'
-       uses: fjogeleit/http-request-action@v1
+      - name: call Adopt-Deployment API
+        if: steps.deploy.outputs.op == 'true'
+        uses: fjogeleit/http-request-action@v1
        
         with:
           url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
@@ -99,7 +99,7 @@ jobs:
           contentType: application/json
           data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.ok.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
     
-    - name: call Adopt-Deployment API
+      - name: call Adopt-Deployment API
         if: steps.deploy.outputs.op != 'true'
         uses: fjogeleit/http-request-action@v1
        
@@ -111,7 +111,7 @@ jobs:
 
       
       - uses: rtCamp/action-slack-notify@v2
-        if: steps.deploy.outputs.op == 'true'
+        #if: steps.deploy.outputs.op == 'true'
         env:
           
           SLACK_MESSAGE: HTTP- ${{ steps.deploy.outputs.op }}

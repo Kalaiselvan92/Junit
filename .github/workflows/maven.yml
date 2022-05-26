@@ -27,7 +27,7 @@ jobs:
       - name: Maven build and deploy
         run: |
           mvn clean test
-          #mavn clean deploy
+          mvn clean deploy
       
       - name: job variable
         if: always()
