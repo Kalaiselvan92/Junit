@@ -97,7 +97,7 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-           echo "::set-output name=op::$(date +'%Y%M%d')"
+           echo "::set-output name=op::$(ate +'%Y%M%d')"
 
       - name: deployment job variable
         if: always()
@@ -113,7 +113,15 @@ jobs:
           SLACK_TITLE: Deployment status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-      
+      - name: call Adopt-Deployment API
+        if: always()
+        uses: fjogeleit/http-request-action@v1
+       
+        with:
+          url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
+          method: 'POST'
+          contentType: application/json
+          data: '{"buildNumber": "${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","projectId": 59,"projectName": "SpringBootHelloWorld"}'
 
       
 
