@@ -63,12 +63,12 @@
     		<repository>
         		<id>central</id>
        			<name>releases</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/default-maven-local/</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/junit-release/</url>
     		</repository>	  
     		<snapshotRepository>
        			<id>snapshots</id>
        			<name>snapshots</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/default-maven-local/</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/junit-release/</url>
     		</snapshotRepository>
   	</distributionManagement>
 
