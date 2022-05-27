@@ -91,8 +91,8 @@ jobs:
           echo "::set-output name=approvedate::$(date +'%Y-%m-%dT%H:%M:%S')"
       - name: Run script
         run: |
-          #chmod +x ./deployment.sh
-          #./deployment.sh
+          chmod +x ./deployment.sh
+          ./deployment.sh
           
       - name: Run one-line script
         id: deploy
