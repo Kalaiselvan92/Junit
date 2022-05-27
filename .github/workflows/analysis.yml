@@ -121,7 +121,7 @@ jobs:
           url: 'http://52.188.21.117:8012/adopt-services/devdeployment/save'
           method: 'POST'
           contentType: application/json
-          data: '{"actionType": "deploy","buildNumber": "github.${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","moduleId": 59,"moduleName": "Broadband","projectName": "SpringBootHelloWorld"}'
+          data: '{"actionType": deploy,"buildNumber": "github.${{ github.event.workflow_run.run_number }}","deployedDate": "${{ steps.env.outputs.approvedate}}","deploymentStatus": ${{ steps.jobstatus.outputs.status }},"environment": "DEV","moduleId": 59,"moduleName": "Broadband","projectName": "SpringBootHelloWorld"}'
 
      
 
