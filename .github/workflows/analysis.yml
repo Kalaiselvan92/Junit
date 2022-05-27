@@ -97,7 +97,7 @@ jobs:
       - name: Run one-line script
         id: deploy
         run: 
-            wget -O /dev/null https://www.google.com 2>&1 | grep -o "200"
+            wget -O /dev/null http://localhost:8080/employee 2>&1 | grep -o "200"
 
       - name: deployment job variable
         if: always()

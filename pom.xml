@@ -62,12 +62,12 @@
 	<distributionManagement>
     		<repository>
         		<id>central</id>
-       			<name>myjfrog-releases</name>
+       			<name>releases</name>
        			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-release-local/</url>
     		</repository>	  
     		<snapshotRepository>
        			<id>snapshots</id>
-       			<name>myjfrog-snapshots</name>
+       			<name>snapshots</name>
        			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-snapshot-local/</url>
     		</snapshotRepository>
   	</distributionManagement>
