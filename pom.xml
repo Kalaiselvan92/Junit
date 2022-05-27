@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.javainuse</groupId>
-	<artifactId>springboothelloWorld</artifactId>
+	<artifactId>SpringBootHelloWorld</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -63,12 +63,12 @@
     		<repository>
         		<id>central</id>
        			<name>releases</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-release-local/</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/default-maven-local/</url>
     		</repository>	  
     		<snapshotRepository>
        			<id>snapshots</id>
        			<name>snapshots</name>
-       			<url>https://ksdemo.jfrog.io/artifactory/springboot-libs-snapshot-local/</url>
+       			<url>https://ksdemo.jfrog.io/artifactory/default-maven-local/</url>
     		</snapshotRepository>
   	</distributionManagement>
 
