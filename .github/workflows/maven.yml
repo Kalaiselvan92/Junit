@@ -46,14 +46,14 @@ jobs:
           
           echo "::set-output name=status::${{ job.status == 'success'}}"
       
-     # - name: call API
-      #  if: always()          
-       # uses: fjogeleit/http-request-action@v1
-        #with:
-         #   url: 'http://52.188.21.117:8012/adopt-services/build'
-          #  method: 'POST'
-           # contentType: application/json
-            #data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
+      - name: call API
+        if: always()          
+        uses: fjogeleit/http-request-action@v1
+        with:
+            url: 'http://52.188.21.117:8012/adopt-services/build'
+            method: 'POST'
+            contentType: application/json
+            data: '{ "buildDisplayName": "github.${{ steps.env.outputs.num }}", "buildDuration": "00:00:56", "buildStartDate": ${{ steps.env.outputs.date }}, "buildStatus": ${{ steps.jobstatus.outputs.status }}, "buildURL": "${{ steps.env.outputs.url }}", "projectId": 59 }'
   
       
       - name: Slack Notification 

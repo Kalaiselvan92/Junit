@@ -50,14 +50,14 @@ jobs:
           #SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.host.url=http://13.82.226.119:9000/sonar  -Dsonar.login=0509856fd81ea530443388a7a684302db0c31327 -Dsonar.projectKey=SpringBootHelloWorld
           
-    #  - name: call Adopt-Analyze API
-     #   if: always()
-       # uses: fjogeleit/http-request-action@v1
-        #with:
-         # url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
-          #method: 'POST'
-          #contentType: application/json
-          #data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "SpringBootHelloWorld" }'
+      - name: call Adopt-Analyze API
+        if: always()
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'http://52.188.21.117:8012/adopt-services/codeanalysis'
+          method: 'POST'
+          contentType: application/json
+          data: '{ "buildDisplayName": "github.${{ github.event.workflow_run.run_number }}", "buildURL": "${{ steps.env.outputs.url }}","projectId": 59, "sonarKey": "SpringBootHelloWorld" }'
 
       - name: Slack Notification
         if: always()
@@ -69,6 +69,7 @@ jobs:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
   Deployment:
    #needs: [Analyze]
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
