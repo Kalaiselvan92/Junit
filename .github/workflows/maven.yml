@@ -61,6 +61,6 @@ jobs:
         env:
           
           SLACK_MESSAGE: Build ${{ steps.env.outputs.num }} is completed
-          SLACK_TITLE: Build status
+          SLACK_TITLE: Build Status
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }} 
   
